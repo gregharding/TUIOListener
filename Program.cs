@@ -174,7 +174,7 @@ namespace TUIOListener {
 			lock (tuioServer) {
 				var x = entity.X;
 				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("Cursor Added {0}:{1},{2}", entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Cursor Added {1}:{2},{3}", ((CursorProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
 
@@ -184,14 +184,14 @@ namespace TUIOListener {
 				var x = entity.X;
 				var y = (1 - entity.Y);
 
-				Console.WriteLine(string.Format("Cursor Moved {0}:{1},{2}", entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Cursor Moved {1}:{2},{3}", ((CursorProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
 
 		private static void OnCursorRemoved(object sender, TuioCursorEventArgs e) {
 			var entity = e.Cursor;
 			lock (tuioServer) {
-				Console.WriteLine(string.Format("Cursor Removed {0}", entity.Id));
+				Console.WriteLine(string.Format("{0} Cursor Removed {1}", ((CursorProcessor)sender).FrameNumber, entity.Id));
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace TUIOListener {
 			lock (tuioServer) {
 				var x = entity.X;
 				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("Blob Added {0}:{1},{2}", entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Blob Added {1}:{2},{3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
 
@@ -209,14 +209,14 @@ namespace TUIOListener {
 			lock (tuioServer) {
 				var x = entity.X;
 				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("Blob Moved {0}:{1},{2}", entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Blob Moved {1}:{2},{3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
 
 		private static void OnBlobRemoved(object sender, TuioBlobEventArgs e) {
 			var entity = e.Blob;
 			lock (tuioServer) {
-				Console.WriteLine(string.Format("Blob Removed {0}", entity.Id));
+				Console.WriteLine(string.Format("{0} Blob Removed {1}", ((BlobProcessor)sender).FrameNumber, entity.Id));
 			}
 		}
 
@@ -225,7 +225,7 @@ namespace TUIOListener {
 			lock (tuioServer) {
 				var x = entity.X;
 				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("Object Added {0}/{1}:{2},{3}", entity.ClassId, entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Object Added {1}/{2}:{3},{4}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y));
 			}
 		}
 
@@ -234,14 +234,14 @@ namespace TUIOListener {
 			lock (tuioServer) {
 				var x = entity.X;
 				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("Object Moved {0}/{1}:{2},{3}", entity.ClassId, entity.Id, x, y));
+				Console.WriteLine(string.Format("{0} Object Moved {1}/{2}:{3},{4}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y));
 			}
 		}
 
 		private static void OnObjectRemoved(object sender, TuioObjectEventArgs e) {
 			var entity = e.Object;
 			lock (tuioServer) {
-				Console.WriteLine(string.Format("Object Removed {0}/{1}", entity.ClassId, entity.Id));
+				Console.WriteLine(string.Format("{0} Object Removed {1}/{2}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id));
 			}
 		}
 
