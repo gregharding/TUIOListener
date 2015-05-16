@@ -2,7 +2,7 @@
 
 **Simple C# TUIO v1.1 / OSC v1.1 network listener.**
 
-Listen for [http://www.tuio.org/](TUIO) or [http://opensoundcontrol.org/](OSC) network traffic and print to the console. Defaults to listening for TUIO on port 3333. Useful for quickly checking/debugging data sent from TUIO server apps.
+Listen for [TUIO](http://www.tuio.org/) or [OSC](http://opensoundcontrol.org/) network traffic and output it to the console. Defaults to listening for TUIO on port 3333. Useful for quickly checking/debugging data sent from TUIO server apps.
 
 Usage (Mono/OS X):
 
