@@ -241,7 +241,7 @@ namespace TUIOListener {
 				var x = invertX ? (1 - entity.X) : entity.X ;
 				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
-				Console.WriteLine(string.Format("{0} Blob Added {1}:{2},{3} {4:F1}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
+				Console.WriteLine(string.Format("{0} Blob Added {1}:{2},{3} {4:F3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
 			}
 		}
 
@@ -251,7 +251,7 @@ namespace TUIOListener {
 				var x = invertX ? (1 - entity.X) : entity.X ;
 				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
-				Console.WriteLine(string.Format("{0} Blob Moved {1}:{2},{3} {4:F1}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
+				Console.WriteLine(string.Format("{0} Blob Moved {1}:{2},{3} {4:F3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
 			}
 		}
 
@@ -268,7 +268,7 @@ namespace TUIOListener {
 				var x = invertX ? (1 - entity.X) : entity.X ;
 				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
-				Console.WriteLine(string.Format("{0} Object Added {1}/{2}:{3},{4} {5:F1}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
+				Console.WriteLine(string.Format("{0} Object Added {1}/{2}:{3},{4} {5:F3}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
 			}
 		}
 
@@ -278,7 +278,7 @@ namespace TUIOListener {
 				var x = invertX ? (1 - entity.X) : entity.X ;
 				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
-				Console.WriteLine(string.Format("{0} Object Moved {1}/{2}:{3},{4} {5:F1}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
+				Console.WriteLine(string.Format("{0} Object Moved {1}/{2}:{3},{4} {5:F3}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
 			}
 		}
 
