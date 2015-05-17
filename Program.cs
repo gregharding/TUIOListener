@@ -1,11 +1,14 @@
 ﻿/*
 
 	Simple TUIO v1.1 / OSC v1.1 network listener.
-
-	Defaults to listening for TUIO on port 3333.
-
+	
+	Listen for TUIO or OSC network traffic and output it to the console. Useful for quickly checking/debugging data sent from TUIO server apps.
+	
+	Defaults to listening for TUIO on port 3333. Output radians/degrees using rads/degs options. Invert X/Y axis values in TUIO data using the invertx/y/xy options.
+	
 	Usage:
-		> mono TUIOListener [port] [tuio|osc]
+		> mono TUIOListener [port] [tuio|osc] [rads|degs] [invertx|inverty|invertxy]
+		> mono TUIOListener -help
 
 	Libraries:
 		https://github.com/valyard/TUIOsharp (v1.1 development branch)
@@ -69,6 +72,9 @@ namespace TUIOListener {
 
 		public static int port = 3333;
 		public static MessageType messageType = MessageType.TUIO;
+		public static bool degs = false;
+		public static bool invertX = false;
+		public static bool invertY = false;
 
 
 		public static void Main(string[] args) {
@@ -86,7 +92,7 @@ namespace TUIOListener {
 
 			// help
 			if (args.Length == 1 && (args[0] == "-h" || args[0] == "-help")) {
-				Console.WriteLine("Usage: mono TUIOListener [port] [tuio|osc]");
+				Console.WriteLine("Usage: mono TUIOListener [port] [tuio|osc] [rads|degs] [invertx|inverty|invertxy]");
 				return false;
 			}
 
@@ -115,6 +121,41 @@ namespace TUIOListener {
 					messageType = MessageType.OSC;
 				} else {
 					Console.WriteLine(string.Format("Warning: should be listening for tuio or osc! Defaulting to {0}", messageType.ToString()));
+				}
+			}
+
+			// rads/degs
+			if (args.Length >= 3) {
+				string arg = args[2].ToLower();
+				if (messageType == MessageType.TUIO) {
+					if (arg == "rads") {
+						degs = false;
+					} else if (arg == "degs") {
+						degs = true;
+					} else {
+						Console.WriteLine(string.Format("Warning: use rads/degs for angle option! Defaulting to {0}", (degs ? "degs" : "rads")));
+					}
+				} else {
+					Console.WriteLine("Warning: rads/degs only used when listening to tuio!");
+				}
+			}
+
+			// invert y
+			if (args.Length >= 4) {
+				string arg = args[3].ToLower();
+				if (messageType == MessageType.TUIO) {
+					if (arg == "invertx") {
+						invertX = true;
+					} else if (arg == "inverty") {
+						invertY = true;
+					} else if (arg == "invertxy") {
+						invertX = true;
+						invertY = true;
+					} else {
+						Console.WriteLine("Warning: not using invert x/y!");
+					}
+				} else {
+					Console.WriteLine("Warning: invert x/y only used when listening to tuio!");
 				}
 			}
 
@@ -172,8 +213,8 @@ namespace TUIOListener {
 		private static void OnCursorAdded(object sender, TuioCursorEventArgs e) {
 			var entity = e.Cursor;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				Console.WriteLine(string.Format("{0} Cursor Added {1}:{2},{3}", ((CursorProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
@@ -181,9 +222,8 @@ namespace TUIOListener {
 		private static void OnCursorUpdated(object sender, TuioCursorEventArgs e) {
 			var entity = e.Cursor;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
-
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
 				Console.WriteLine(string.Format("{0} Cursor Moved {1}:{2},{3}", ((CursorProcessor)sender).FrameNumber, entity.Id, x, y));
 			}
 		}
@@ -198,18 +238,20 @@ namespace TUIOListener {
 		private static void OnBlobAdded(object sender, TuioBlobEventArgs e) {
 			var entity = e.Blob;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("{0} Blob Added {1}:{2},{3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y));
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
+				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
+				Console.WriteLine(string.Format("{0} Blob Added {1}:{2},{3} {4:F1}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
 			}
 		}
 
 		private static void OnBlobUpdated(object sender, TuioBlobEventArgs e) {
 			var entity = e.Blob;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("{0} Blob Moved {1}:{2},{3}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y));
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
+				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
+				Console.WriteLine(string.Format("{0} Blob Moved {1}:{2},{3} {4:F1}", ((BlobProcessor)sender).FrameNumber, entity.Id, x, y, angle));
 			}
 		}
 
@@ -223,18 +265,20 @@ namespace TUIOListener {
 		private static void OnObjectAdded(object sender, TuioObjectEventArgs e) {
 			var entity = e.Object;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("{0} Object Added {1}/{2}:{3},{4}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y));
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
+				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
+				Console.WriteLine(string.Format("{0} Object Added {1}/{2}:{3},{4} {5:F1}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
 			}
 		}
 
 		private static void OnObjectUpdated(object sender, TuioObjectEventArgs e) {
 			var entity = e.Object;
 			lock (tuioServer) {
-				var x = entity.X;
-				var y = (1 - entity.Y);
-				Console.WriteLine(string.Format("{0} Object Moved {1}/{2}:{3},{4}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y));
+				var x = invertX ? (1 - entity.X) : entity.X ;
+				var y = invertY ? (1 - entity.Y) : entity.Y ;
+				var angle = degs ? (entity.Angle * (180f / Math.PI)) : entity.Angle ;
+				Console.WriteLine(string.Format("{0} Object Moved {1}/{2}:{3},{4} {5:F1}", ((ObjectProcessor)sender).FrameNumber, entity.ClassId, entity.Id, x, y, angle));
 			}
 		}
 

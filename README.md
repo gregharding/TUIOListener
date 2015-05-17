@@ -2,11 +2,13 @@
 
 **Simple C# TUIO v1.1 / OSC v1.1 network listener.**
 
-Listen for [TUIO](http://www.tuio.org/) or [OSC](http://opensoundcontrol.org/) network traffic and output it to the console. Defaults to listening for TUIO on port 3333. Useful for quickly checking/debugging data sent from TUIO server apps.
+Listen for [TUIO](http://www.tuio.org/) or [OSC](http://opensoundcontrol.org/) network traffic and output it to the console. Useful for quickly checking/debugging data sent from TUIO server apps.
+
+Defaults to listening for TUIO on port 3333. Output radians/degrees using rads/degs options. Invert X/Y axis values in TUIO data using the invertx/y/xy options.
 
 Usage (Mono/OS X):
 
-    > mono TUIOListener [port] [tuio|osc]
+    > mono TUIOListener [port] [tuio|osc] [rads|degs] [invertx|inverty|invertxy]
     > mono TUIOListener -help
 
 Libraries / Assemblies:
