@@ -4,12 +4,38 @@
 
 Listen for [TUIO](http://www.tuio.org/) or [OSC](http://opensoundcontrol.org/) network traffic and output it to the console. Useful for quickly checking/debugging data sent from TUIO server apps.
 
-Defaults to listening for TUIO on port 3333. Output radians/degrees using rads/degs options. Invert X/Y axis values in TUIO data using the invertx/y/xy options.
+Defaults to listening for TUIO on port 3333. Output radians/degrees values in TUIO data using the rads/degs option. Invert X/Y axis values in TUIO data using the invertx/y/xy option.
 
 Usage (Mono/OS X):
 
     > mono TUIOListener [port] [tuio|osc] [rads|degs] [invertx|inverty|invertxy]
     > mono TUIOListener -help
+
+Output examples:
+
+	> mono TUIOListener
+	TUIO listening on port 3333... (Press escape to quit)
+	...
+	198 Object Added 10/2:0.5108514,0.4567669 0.000
+	199 Object Moved 10/2:0.5203468,0.4452846 0.045
+	200 Object Moved 10/2:0.5203468,0.4452846 0.123
+	...
+	223 Object Moved 10/2:0.9283744,0.8942347 2.236
+	224 Object Removed 10/2
+	Bye!
+
+	> mono TUIOListener 3334 osc
+	OSC listening on port 3334... (Press escape to quit)
+	...
+	/tuio/2Dobj,si alive 10
+	/tuio/2Dobj,siiffffffff set 10 2 0.5108514 0.4567669 0 0 0 0 0 0
+	/tuio/2Dobj,si fseq 198
+	/tuio/2Dobj,si alive 10 11
+	/tuio/2Dobj,siiffffffff set 10 2 0.5203468 0.4452846 0 0 0 0 0 0
+	/tuio/2Dobj,siiffffffff set 11 5 0.2395874 0.8796411 0 0 0 0 0 0
+	/tuio/2Dobj,si fseq 199
+	...
+	Bye!
 
 Libraries / Assemblies:
 * [https://github.com/valyard/TUIOsharp](https://github.com/valyard/TUIOsharp) (v1.1 development branch)
