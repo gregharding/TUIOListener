@@ -38,7 +38,11 @@ Output examples:
 	Bye!
 
 Libraries / Assemblies:
-* [https://github.com/valyard/TUIOsharp](https://github.com/valyard/TUIOsharp) (v1.1 development branch)
+* [https://github.com/gregharding/TUIOsharp](https://github.com/gregharding/TUIOsharp)
+* [https://github.com/gregharding/OSCsharp](https://github.com/gregharding/OSCsharp)
+
+Currently fixed versions of;
+* [https://github.com/valyard/TUIOsharp](https://github.com/valyard/TUIOsharp)
 * [https://github.com/valyard/OSCsharp](https://github.com/valyard/OSCsharp)
 
 **Author**
